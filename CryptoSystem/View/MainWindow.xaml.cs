@@ -1,7 +1,9 @@
-﻿using CryptoSystem.ViewModel;
+﻿using Client;
+using CryptoSystem.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,6 +27,23 @@ namespace CryptoSystem
         {
             InitializeComponent();
             DataContext = new CryptoSystemVM();
+            try
+            {
+                getContext().Client.Connect();
+                var tmp = getContext().Client;
+                Task.Run(() => { tmp.StartRecievingResponses(); });
+            }
+            catch (StreamNotOpenedException ex)
+            {
+                MessageBox.Show($"Impossible to open buffer for data exchanging. Message {ex.Message}", "StreamNotOpenedException", MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
+
+            }
+            catch (SocketException ex)
+            {
+                MessageBox.Show($"Impossible to open buffer for data exchanging. Message {ex.Message}", "SocketException", MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
+            }
             //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
             //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
             //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });

@@ -1,10 +1,13 @@
-﻿using CryptoSystem.Commands;
+﻿using Client;
+using CryptoSystem.Commands;
+using CryptoSystem.Converters;
 using CryptoSystem.Model;
 using CryptoSystem.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +17,13 @@ namespace CryptoSystem.ViewModel
 {
     public sealed class CryptoSystemVM
     {
+        private MyClient client;
+        public MyClient Client { get => client; }
+        public CryptoSystemVM()
+        {
+            client = new();
+        }
+
 		private ObservableCollection<EncryptionDTO> encryptionWidgets;
 
 		public ObservableCollection<EncryptionDTO> EncryptionWidgets
@@ -22,7 +32,6 @@ namespace CryptoSystem.ViewModel
 
             set { encryptionWidgets = value; }
 		}
-
         private ObservableCollection<DecryptionDTO> decryptionWidgets;
 
         public ObservableCollection<DecryptionDTO> DecryptionWidgets
@@ -45,7 +54,9 @@ namespace CryptoSystem.ViewModel
             EncryptionWindow encryptionWindow = new();
             if (encryptionWindow.ShowDialog() == true)
             {
-                MakeEncryption(encryptionWindow.getContext().EncryptionInfo);
+                EncryptionDTO encryptionDTO = encryptionWindow.getContext().EncryptionInfo;
+                Task.Run(() => { MakeEncryption(encryptionDTO);});
+                encryptionWidgets.Add(encryptionDTO);
             }
             else
             {
@@ -53,9 +64,10 @@ namespace CryptoSystem.ViewModel
             }
         }
 
-        private void MakeEncryption(EncryptionDTO encryptionDTO)
+        private async Task MakeEncryption(EncryptionDTO encryptionDTO)
         {
-            encryptionWidgets.Add(encryptionDTO);
+            CryptMessage cryptMessage = EncryptDTOIntoCryptMessage.Convert(encryptionDTO);
+            await Client.SendMessageAsync(cryptMessage, encryptionDTO.SecretA);
             //TODO: MAKE CALL CLIENT ENCRYPTION, map into CryptoMessage
         }
 
