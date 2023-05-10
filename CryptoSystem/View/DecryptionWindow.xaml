@@ -1,0 +1,50 @@
+﻿<Window x:Class="CryptoSystem.View.DecryptionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CryptoSystem.ViewModel"
+        mc:Ignorable="d"
+        Title="DecryptionWindow" Height="300" Width="400" WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <local:DecryptionDialogVM/>
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0.1*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="File to decrypt: " Width="80"/>
+                <TextBlock Margin="20, 0, 20, 0" Text="{Binding DecryptionInfo.FileToDecrypt, Mode=TwoWay}" MinWidth="100" Width="Auto"/>
+                <Button Content="Load" Command="{Binding OnLoadFileToDecrypt}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Key file: " Width="80" HorizontalAlignment="Center"/>
+                <TextBlock Margin="20, 0, 20, 0" Text="{Binding DecryptionInfo.KeyFile, Mode=TwoWay}" MinWidth="100" Width="Auto"/>
+                <Button Content="Load" Command="{Binding OnLoadKeyFile}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Result file: "  Width="80"/>
+                <TextBlock Margin="20, 0, 20, 0" Text="{Binding DecryptionInfo.ResultDecryptFile, Mode=TwoWay}" MinWidth="100" Width="Auto"/>
+                <Button Content="Save" Command="{Binding OnLoadResultDecryptFile}"/>
+            </StackPanel>
+
+
+        </StackPanel>
+        <Button Grid.Row="1" Grid.Column="1" Content="Decrypt" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Command="{Binding OnMakeDecryption}" Click="OnMakeDecryptionClicked"/>
+    </Grid>
+</Window>

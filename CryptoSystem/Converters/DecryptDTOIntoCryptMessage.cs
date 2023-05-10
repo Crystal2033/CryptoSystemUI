@@ -16,6 +16,7 @@ namespace CryptoSystem.Converters
             message.FileIn = decryptionDTO.FileToDecrypt;
             message.FileOut = decryptionDTO.ResultDecryptFile;
             message.KeyFile = decryptionDTO.KeyFile;
+            message.MessageType = MessageType.DECRYPTION;
             return message;
         }
     }

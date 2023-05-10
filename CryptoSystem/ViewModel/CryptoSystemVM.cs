@@ -64,16 +64,48 @@ namespace CryptoSystem.ViewModel
             }
         }
 
+        private bool CanAddEncryption(object param)
+        {
+            return true;
+        }
+
         private async Task MakeEncryption(EncryptionDTO encryptionDTO)
         {
             CryptMessage cryptMessage = EncryptDTOIntoCryptMessage.Convert(encryptionDTO);
             await Client.SendMessageAsync(cryptMessage, encryptionDTO.SecretA);
-            //TODO: MAKE CALL CLIENT ENCRYPTION, map into CryptoMessage
         }
 
-        private bool CanAddEncryption(object param)
+        private ICommand onAddDecryption;
+
+        public ICommand OnAddDecryption
+        {
+            get { return onAddDecryption ?? (onAddDecryption = new RelayCommand(AddDecryption, CanAddDecryption)); }
+            set { onAddDecryption = value; }
+        }
+        private void AddDecryption(object param)
+        {
+            DecryptionWindow decryptionWindow = new();
+            if (decryptionWindow.ShowDialog() == true)
+            {
+                DecryptionDTO decryptionDTO = decryptionWindow.getContext().DecryptionInfo;
+                Task.Run(() => { MakeDecryption(decryptionDTO); });
+                decryptionWidgets.Add(decryptionDTO);
+            }
+            else
+            {
+                MessageBox.Show("Add Encryption cancelled");
+            }
+        }
+
+        private bool CanAddDecryption(object param)
         {
             return true;
+        }
+
+        private async Task MakeDecryption(DecryptionDTO decryptionDTO)
+        {
+            CryptMessage cryptMessage = DecryptDTOIntoCryptMessage.Convert(decryptionDTO);
+            await Client.SendMessageAsync(cryptMessage, 0);
         }
     }
 }

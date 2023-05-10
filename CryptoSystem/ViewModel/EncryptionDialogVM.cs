@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using CryptoSystem.DialogFunctions;
 
 namespace CryptoSystem.ViewModel
 {
@@ -29,7 +30,7 @@ namespace CryptoSystem.ViewModel
 		}
 		private void LoadFileToEncrypt(object param)
 		{
-            encryptionInfo.FileToEncrypt = GetFileNameToLoad();
+            encryptionInfo.FileToEncrypt = SaverLoaderFiles.GetFileNameToLoad();
         }
 
         private bool CanLoadFileToEncrypt(object param)
@@ -48,34 +49,12 @@ namespace CryptoSystem.ViewModel
         }
         private void SaveResultFile(object param)
         {
-            encryptionInfo.ResultEncryptFile = GetFileNameToSave();
+            encryptionInfo.ResultEncryptFile = SaverLoaderFiles.GetFileNameToSave();
         }
 
         private bool CanSaveResultFile(object param)
         {
             return true;
-        }
-
-        private string GetFileNameToLoad()
-        {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "Text|*.*|All|*.*";
-            if (fileDialog.ShowDialog() == true)
-            {
-                return fileDialog.FileName;
-            }
-            return "";
-        }
-
-        private string GetFileNameToSave()
-        {
-            SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "Text|*.*|All|*.*";
-            if (fileDialog.ShowDialog() == true)
-            {
-                return fileDialog.FileName;
-            }
-            return "";
         }
 
 
@@ -94,7 +73,7 @@ namespace CryptoSystem.ViewModel
         private bool CanMakeEncryption(object param)
         {
             if(EncryptionInfo.FileToEncrypt != "" && EncryptionInfo.ResultEncryptFile != "" &&
-                EncryptionInfo.SecretA > 0 && EncryptionInfo.KeySize != 0 && EncryptionInfo.SymmetricMode > 0)
+                EncryptionInfo.SecretA >= 0 && EncryptionInfo.KeySize != 0 && EncryptionInfo.SymmetricMode > 0)
             {
                 return true;
             }

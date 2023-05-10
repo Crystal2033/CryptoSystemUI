@@ -32,7 +32,7 @@
         <TextBlock Grid.Row="0" Grid.Column="2" Text="Decryption" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <TextBlock Text="Add" VerticalAlignment="Center" Margin="0, 0, 10, 0"/>
-            <Button Content="+" Width="40" Height="40" Margin="0, 0, 20, 0" Command=""/>
+            <Button Content="+" Width="40" Height="40" Margin="0, 0, 20, 0" Command="{Binding OnAddDecryption}"/>
         </StackPanel>
 
         <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto">
