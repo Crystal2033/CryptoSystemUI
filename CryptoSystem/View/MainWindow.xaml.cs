@@ -25,37 +25,36 @@ namespace CryptoSystem
         {
             InitializeComponent();
             DataContext = new CryptoSystemVM();
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
-            getContext().DecryptionWidgets.Add(new Model.DecryptionDTO() { FileToDecrypt = "1234.txt", ResultDecryptFile = "4321.txt" });
-            getContext().DecryptionWidgets.Add(new Model.DecryptionDTO() { FileToDecrypt = "1234.txt", ResultDecryptFile = "4321.txt" });
-            
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt = "1234.txt", ResultEncryptFile = "4321.txt" });
+            //getContext().DecryptionWidgets.Add(new Model.DecryptionDTO() { FileToDecrypt = "1234.txt", ResultDecryptFile = "4321.txt" });
+            //getContext().DecryptionWidgets.Add(new Model.DecryptionDTO() { FileToDecrypt = "1234.txt", ResultDecryptFile = "4321.txt" });
         }
 
         public CryptoSystemVM? getContext()

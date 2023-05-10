@@ -30,5 +30,10 @@ namespace CryptoSystem.View
         {
             return DataContext as EncryptionDialogVM;
         }
+
+        private void OnMakeEncryptionClicked(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+        }
     }
 }

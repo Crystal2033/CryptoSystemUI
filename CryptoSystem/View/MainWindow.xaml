@@ -26,7 +26,7 @@
         <TextBlock Grid.Row="0" Grid.Column="0" Text="Encryption" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
             <TextBlock Text="Add" VerticalAlignment="Center" Margin="0, 0, 10, 0"/>
-            <Button Content="+" Width="40" Height="40" Margin="0, 0, 20, 0" Command=""/>
+            <Button Content="+" Width="40" Height="40" Margin="0, 0, 20, 0" Command="{Binding OnAddEncryption}"/>
         </StackPanel>
 
         <TextBlock Grid.Row="0" Grid.Column="2" Text="Decryption" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
@@ -47,6 +47,14 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Into: "/>
                                 <TextBlock Text="{Binding ResultEncryptFile}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Key size: "/>
+                                <TextBlock Text="{Binding KeySize}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Mode: "/>
+                                <TextBlock Text="{Binding SymmetricMode}"/>
                             </StackPanel>
                             <ProgressBar Minimum="0" Maximum="100" Value="67" Name="encrStatus" Margin="0, 0, 20, 0"/>
                             <TextBlock Text="{Binding ElementName=encrStatus, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
