@@ -50,8 +50,5 @@ namespace CryptoSystem.Model
 			get { return symmetricMode; }
 			set { symmetricMode = value; }
 		}
-
-
-
 	}
 }

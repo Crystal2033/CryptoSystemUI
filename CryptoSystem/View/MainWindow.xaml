@@ -3,10 +3,81 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CryptoSystem"
+        xmlns:local="clr-namespace:CryptoSystem.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
+    <Window.DataContext>
+        <local:CryptoSystemVM/>
+    </Window.DataContext>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Encryption" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock Text="Add" VerticalAlignment="Center" Margin="0, 0, 10, 0"/>
+            <Button Content="+" Width="40" Height="40" Margin="0, 0, 20, 0" Command=""/>
+        </StackPanel>
+
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="Decryption" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock Text="Add" VerticalAlignment="Center" Margin="0, 0, 10, 0"/>
+            <Button Content="+" Width="40" Height="40" Margin="0, 0, 20, 0" Command=""/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto">
+            <ItemsControl Grid.Row="1" Grid.Column="0" ItemsSource="{Binding EncryptionWidgets}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="From: "/>
+                                <TextBlock Text="{Binding FileToEncrypt}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Into: "/>
+                                <TextBlock Text="{Binding ResultEncryptFile}"/>
+                            </StackPanel>
+                            <ProgressBar Minimum="0" Maximum="100" Value="67" Name="encrStatus" Margin="0, 0, 20, 0"/>
+                            <TextBlock Text="{Binding ElementName=encrStatus, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="2" VerticalScrollBarVisibility="Auto">
+            <ItemsControl Grid.Row="1" Grid.Column="2" ItemsSource="{Binding DecryptionWidgets}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="From: "/>
+                                <TextBlock Text="{Binding FileToDecrypt}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Into: "/>
+                                <TextBlock Text="{Binding ResultDecryptFile}"/>
+                            </StackPanel>
+                            <ProgressBar Minimum="0" Maximum="100" Value="67" Name="decrStatus" Margin="0, 0, 20, 0"/>
+                            <TextBlock Text="{Binding ElementName=decrStatus, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+            
 
     </Grid>
 </Window>
