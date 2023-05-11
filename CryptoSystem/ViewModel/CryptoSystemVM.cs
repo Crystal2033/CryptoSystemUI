@@ -6,6 +6,7 @@ using CryptoSystem.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -69,10 +70,35 @@ namespace CryptoSystem.ViewModel
             return true;
         }
 
+
+        private long GetFileSize(string path)
+        {
+            if (File.Exists(path))
+            {
+                return new FileInfo(path).Length;
+            }
+            return 0;
+        }
         private async Task MakeEncryption(EncryptionDTO encryptionDTO)
         {
             CryptMessage cryptMessage = EncryptDTOIntoCryptMessage.Convert(encryptionDTO);
+            if (File.Exists(encryptionDTO.ResultEncryptFile))
+            {
+                File.Delete(encryptionDTO.ResultEncryptFile);
+            }
             await Client.SendMessageAsync(cryptMessage, encryptionDTO.SecretA);
+            encryptionDTO.FileSize = GetFileSize(encryptionDTO.FileToEncrypt);
+            _ = Task.Run(() =>
+            {
+                while (encryptionDTO.CypheredBytes < encryptionDTO.FileSize)
+                {
+                    encryptionDTO.CypheredBytes = GetFileSize(encryptionDTO.ResultEncryptFile);
+                    if(encryptionDTO.CypheredBytes > encryptionDTO.FileSize)
+                    {
+                        encryptionDTO.CypheredBytes = encryptionDTO.FileSize;
+                    }
+                }
+            });
         }
 
         private ICommand onAddDecryption;
@@ -105,7 +131,24 @@ namespace CryptoSystem.ViewModel
         private async Task MakeDecryption(DecryptionDTO decryptionDTO)
         {
             CryptMessage cryptMessage = DecryptDTOIntoCryptMessage.Convert(decryptionDTO);
+            if (File.Exists(decryptionDTO.ResultDecryptFile))
+            {
+                File.Delete(decryptionDTO.ResultDecryptFile);
+            }
+
             await Client.SendMessageAsync(cryptMessage, 0);
+            decryptionDTO.FileSize = GetFileSize(decryptionDTO.FileToDecrypt);
+            _ = Task.Run(() =>
+            {
+                while (decryptionDTO.CypheredBytes < decryptionDTO.FileSize)
+                {
+                    decryptionDTO.CypheredBytes = GetFileSize(decryptionDTO.ResultDecryptFile);
+                    if (decryptionDTO.FileSize - decryptionDTO.CypheredBytes < 16) //PADDING PCKS7
+                    {
+                        decryptionDTO.CypheredBytes = decryptionDTO.FileSize;
+                    }
+                }
+            });
         }
     }
 }

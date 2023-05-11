@@ -56,8 +56,8 @@
                                 <TextBlock Text="Mode: "/>
                                 <TextBlock Text="{Binding SymmetricMode}"/>
                             </StackPanel>
-                            <ProgressBar Minimum="0" Maximum="100" Value="67" Name="encrStatus" Margin="0, 0, 20, 0"/>
-                            <TextBlock Text="{Binding ElementName=encrStatus, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <ProgressBar Minimum="0" Maximum="{Binding FileSize, Mode=TwoWay}" Height="10" Value="{Binding CypheredBytes, Mode=TwoWay}" Name="encrStatus" Margin="0, 0, 20, 0"/>
+                            <TextBlock Text="{Binding ProgressPercents, Mode=TwoWay,StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -77,8 +77,8 @@
                                 <TextBlock Text="Into: "/>
                                 <TextBlock Text="{Binding ResultDecryptFile}"/>
                             </StackPanel>
-                            <ProgressBar Minimum="0" Maximum="100" Value="67" Name="decrStatus" Margin="0, 0, 20, 0"/>
-                            <TextBlock Text="{Binding ElementName=decrStatus, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <ProgressBar Minimum="0" Maximum="{Binding FileSize, Mode=TwoWay}" Height="10" Value="{Binding CypheredBytes, Mode=TwoWay}" Name="decrStatus" Margin="0, 0, 20, 0"/>
+                            <TextBlock Text="{Binding ProgressPercents,Mode=TwoWay, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                         </StackPanel>
                     </DataTemplate>

@@ -9,7 +9,7 @@ namespace CryptoSystem.Model
 {
     public sealed class DecryptionDTO : INotifyPropertyChanged
     {
-        private string fileToDecrypt;
+        private string fileToDecrypt = "";
 
         public string FileToDecrypt
         {
@@ -18,7 +18,7 @@ namespace CryptoSystem.Model
         }
 
 
-        private string resultDecryptFile;
+        private string resultDecryptFile = "";
 
         public string ResultDecryptFile
         {
@@ -26,12 +26,37 @@ namespace CryptoSystem.Model
             set { resultDecryptFile = value; OnPropertyChanged(nameof(ResultDecryptFile)); }
         }
 
-        private string keyFile;
+        private string keyFile = "";
 
         public string KeyFile
         {
             get { return keyFile; }
             set { keyFile = value; OnPropertyChanged(nameof(KeyFile)); }
+        }
+
+        private long fileSize = long.MaxValue;
+
+        public long FileSize
+        {
+            get { return fileSize; }
+            set { fileSize = value; OnPropertyChanged(nameof(FileSize)); }
+        }
+
+        private long cypheredBytes = 0;
+
+        public long CypheredBytes
+        {
+            get { return cypheredBytes; }
+            set { cypheredBytes = value; OnPropertyChanged(nameof(CypheredBytes)); OnPropertyChanged(nameof(ProgressPercents)); }
+        }
+
+
+        private double progressPercents = 0;
+
+        public double ProgressPercents
+        {
+            get { return Math.Round((double)CypheredBytes / (double)FileSize, 2) * 100; }
+            set { progressPercents = value; OnPropertyChanged(nameof(ProgressPercents)); }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

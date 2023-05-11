@@ -11,7 +11,7 @@ namespace CryptoSystem.Model
 {
     public sealed class EncryptionDTO : INotifyPropertyChanged
     {
-		private string fileToEncrypt;
+		private string fileToEncrypt = "";
 
 		public string FileToEncrypt
 		{
@@ -20,7 +20,7 @@ namespace CryptoSystem.Model
 		}
 
 
-		private string resultEncryptFile;
+		private string resultEncryptFile = "";
 
 		public string ResultEncryptFile
 		{
@@ -28,7 +28,7 @@ namespace CryptoSystem.Model
 			set { resultEncryptFile = value; OnPropertyChanged(nameof(ResultEncryptFile)); }
 		}
 
-		private BigInteger secretA;
+		private BigInteger secretA = 0;
 
 		public BigInteger SecretA
 		{
@@ -50,6 +50,31 @@ namespace CryptoSystem.Model
 			get { return symmetricMode; }
 			set { symmetricMode = value; OnPropertyChanged(nameof(SymmetricMode)); }
 		}
+
+        private long fileSize = long.MaxValue;
+
+        public long FileSize
+        {
+            get { return fileSize; }
+            set { fileSize = value; OnPropertyChanged(nameof(FileSize)); }
+        }
+
+        private long cypheredBytes = 0;
+
+        public long CypheredBytes
+        {
+            get { return cypheredBytes; }
+            set { cypheredBytes = value; OnPropertyChanged(nameof(CypheredBytes)); OnPropertyChanged(nameof(ProgressPercents)); }
+        }
+
+
+        private double progressPercents = 0;
+
+        public double ProgressPercents
+        {
+            get { return Math.Round((double)CypheredBytes / (double)FileSize, 2) * 100; }
+            set { progressPercents = value; OnPropertyChanged(nameof(ProgressPercents)); }
+        }
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
