@@ -1,4 +1,5 @@
 ﻿using Client;
+using CryptoSystem.Client.Models;
 using CryptoSystem.Commands;
 using CryptoSystem.Converters;
 using CryptoSystem.Model;

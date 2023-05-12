@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client
+namespace CryptoSystem.Client.Models
 {
     public enum MessageType
     {

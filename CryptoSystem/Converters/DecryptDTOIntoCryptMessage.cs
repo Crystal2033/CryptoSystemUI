@@ -1,4 +1,5 @@
 ﻿using Client;
+using CryptoSystem.Client.Models;
 using CryptoSystem.Model;
 using System;
 using System.Collections.Generic;

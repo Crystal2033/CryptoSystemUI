@@ -1,5 +1,6 @@
 ﻿using Client;
 using Client.Exceptions;
+using CryptoSystem.Client.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;

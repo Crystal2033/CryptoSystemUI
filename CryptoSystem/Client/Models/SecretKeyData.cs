@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using XTR_TwofishAlgs.MathBase.GaloisField;
 
-namespace Client
+namespace CryptoSystem.Client.Models
 {
     public sealed class SecretKeyData
     {

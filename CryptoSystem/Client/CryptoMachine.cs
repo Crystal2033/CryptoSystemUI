@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using CryptoSystem.Client.Models;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

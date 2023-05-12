@@ -1,4 +1,5 @@
 ﻿using Client.Exceptions;
+using CryptoSystem.Client.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

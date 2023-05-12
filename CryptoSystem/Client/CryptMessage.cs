@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using CryptoSystem.Client.Models;
 using XTR_TWOFISH.CypherEnums;
 using XTR_TwofishAlgs.MathBase.GaloisField;
 
