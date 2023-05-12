@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using XTR_TwofishAlgs.Exceptions;
 
 namespace CryptoSystem
@@ -26,53 +27,62 @@ namespace CryptoSystem
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool hasToRecieveMsgs = true;
-        private CancellationTokenSource cancellationTokenSource;
+        private ClientRecieverVM clientReciever;
+        private Task proceesingTask;
         public MainWindow()
         {
             InitializeComponent();
             DataContext = new CryptoSystemVM();
-            cancellationTokenSource = new();
+            
+            clientReciever = new(getContext().Client);
             try
             {
-                getContext().Client.Connect();
-                var cryptSystem = getContext();
-                var client = cryptSystem.Client;
-
-                Task.Run(() =>
-                {
-                    while (hasToRecieveMsgs)
-                    {
-                        try
-                        {//TODO: Collections with task and CTS (task, CTS)
-                            var task = client.ReceiveMessageAsync(cancellationTokenSource.Token);
-
-                            //over of try
-                        }
-                        catch (MyClientException ex)
-                        {
-                            cryptSystem.DecryptionWidgets[cryptSystem.DecryptionWidgets.Count - 1].FileToDecrypt = "Failed";
-                            MessageBox.Show($"Client exception. Message {ex.Message}", "MyClientException", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                        catch (DamagedFileException ex)
-                        {
-                            cryptSystem.DecryptionWidgets[cryptSystem.DecryptionWidgets.Count - 1].FileToDecrypt = "Damaged";
-                            MessageBox.Show($"Decrypting file had been damaged. Message {ex.Message}", "DamagedFileException", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                    }
-                });
+                clientReciever.Connect();
             }
             catch (StreamNotOpenedException ex)
             {
                 MessageBox.Show($"Impossible to open buffer for data exchanging. Message {ex.Message}", "StreamNotOpenedException", MessageBoxButton.OK, MessageBoxImage.Error);
-                hasToRecieveMsgs = false;
                 Close();
             }
             catch (SocketException ex)
             {
                 MessageBox.Show($"Impossible to open buffer for data exchanging. Message {ex.Message}", "SocketException", MessageBoxButton.OK, MessageBoxImage.Error);
-                hasToRecieveMsgs = false;
                 Close();
+            }
+
+            proceesingTask = clientReciever.Processing();
+
+            DispatcherTimer timer = new();
+            timer.Interval = TimeSpan.FromSeconds(2);
+            timer.Tick += CheckTaskResultsAndMakeActions;
+            timer.Start();
+        }
+
+        public void CheckTaskResultsAndMakeActions(object sender, EventArgs e)
+        {
+            if (proceesingTask.IsFaulted)
+            {
+                MessageBox.Show($"Your application is unexpectedly finished because of server`s problems. Message {proceesingTask.Exception.Message}", $"{proceesingTask.Exception}", MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
+            }
+
+            foreach(var task in clientReciever.Tasks)
+            {
+                if (task.Value.task.IsFaulted) //thrown exception
+                {
+                    MessageBox.Show($"Is faulted: {task.Key}");
+                    clientReciever.Tasks.Remove(task.Key);
+                    getContext().SetCryptStatus(task.Key, task.Value.cryptOp, Model.Status.FAILED);
+                    //getContext().DeleteCryptOperationFromWidgets(task.Key, task.Value.cryptOp);
+                    //set error status
+                }
+                else if (task.Value.task.IsCompletedSuccessfully)
+                {
+                    clientReciever.Tasks.Remove(task.Key);
+                    getContext().SetCryptStatus(task.Key, task.Value.cryptOp, Model.Status.SUCCESS);
+                    //getContext().DeleteCryptOperationFromWidgets(task.Key, task.Value.cryptOp);
+                    //set done status
+                }
             }
         }
 

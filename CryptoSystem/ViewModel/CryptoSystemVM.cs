@@ -65,6 +65,51 @@ namespace CryptoSystem.ViewModel
             }
         }
 
+        public void SetCryptStatus(string inFileName, MessageType cryptOp, Status status)
+        {
+            if (cryptOp == MessageType.ENCRYPTION)
+            {
+                EncryptionDTO widget = EncryptionWidgets.FirstOrDefault(encrDto => encrDto.FileToEncrypt == inFileName);
+                if (widget != null)
+                {
+                    widget.CryptStatus = status;
+                }
+            }
+            else if (cryptOp == MessageType.DECRYPTION)
+            {
+                DecryptionDTO widget = DecryptionWidgets.FirstOrDefault(decrDto => decrDto.FileToDecrypt == inFileName);
+                
+                if (widget != null)
+                {
+                    widget.CryptStatus = status;
+                }
+            }
+        }
+
+        public bool DeleteCryptOperationFromWidgets(string inFileName, MessageType cryptOp)
+        {
+            if(cryptOp == MessageType.ENCRYPTION)
+            {
+                EncryptionDTO widget = EncryptionWidgets.FirstOrDefault(encrDto => encrDto.FileToEncrypt == inFileName);
+                if (widget != null)
+                {
+                    EncryptionWidgets.Remove(widget);
+                    return true;
+                }
+                
+            }
+            else if(cryptOp == MessageType.DECRYPTION)
+            {
+                DecryptionDTO widget = DecryptionWidgets.FirstOrDefault(decrDto => decrDto.FileToDecrypt == inFileName);
+                if (widget != null)
+                {
+                    DecryptionWidgets.Remove(widget);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private bool CanAddEncryption(object param)
         {
             return true;
@@ -88,15 +133,19 @@ namespace CryptoSystem.ViewModel
             }
             await Client.SendMessageAsync(cryptMessage, encryptionDTO.SecretA);
             encryptionDTO.FileSize = GetFileSize(encryptionDTO.FileToEncrypt);
-            _ = Task.Run(() =>
+            await Task.Run(() =>
             {
-                while (encryptionDTO.CypheredBytes < encryptionDTO.FileSize)
+                while (encryptionDTO.CypheredBytes < encryptionDTO.FileSize && encryptionDTO.CryptStatus == Status.RUNNING)
                 {
                     encryptionDTO.CypheredBytes = GetFileSize(encryptionDTO.ResultEncryptFile);
                     if(encryptionDTO.CypheredBytes > encryptionDTO.FileSize)
                     {
                         encryptionDTO.CypheredBytes = encryptionDTO.FileSize;
                     }
+                }
+                if(encryptionDTO.CryptStatus == Status.RUNNING)
+                {
+                    encryptionDTO.CryptStatus = Status.SUCCESS;
                 }
             });
         }
@@ -138,16 +187,22 @@ namespace CryptoSystem.ViewModel
 
             await Client.SendMessageAsync(cryptMessage, 0);
             decryptionDTO.FileSize = GetFileSize(decryptionDTO.FileToDecrypt);
-            _ = Task.Run(() =>
+            await Task.Run(() =>
             {
-                while (decryptionDTO.CypheredBytes < decryptionDTO.FileSize)
+                while (decryptionDTO.CypheredBytes < decryptionDTO.FileSize && decryptionDTO.CryptStatus == Status.RUNNING)
                 {
                     decryptionDTO.CypheredBytes = GetFileSize(decryptionDTO.ResultDecryptFile);
                     if (decryptionDTO.FileSize - decryptionDTO.CypheredBytes < 16) //PADDING PCKS7
                     {
                         decryptionDTO.CypheredBytes = decryptionDTO.FileSize;
+                        break;
                     }
                 }
+                if(decryptionDTO.CryptStatus == Status.RUNNING)
+                {
+                    decryptionDTO.CryptStatus = Status.SUCCESS;
+                }
+                
             });
         }
     }

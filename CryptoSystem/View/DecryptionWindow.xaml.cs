@@ -33,6 +33,7 @@ namespace CryptoSystem.View
 
         private void OnMakeDecryptionClicked(object sender, RoutedEventArgs e)
         {
+            getContext().DecryptionInfo.CryptStatus = Model.Status.RUNNING;
             DialogResult = true;
         }
     }

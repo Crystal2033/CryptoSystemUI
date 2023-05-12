@@ -1,6 +1,7 @@
 ﻿using Client.Exceptions;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
 using System.Net.Sockets;
@@ -43,19 +44,19 @@ namespace Client
             Reader?.Close();
         }
 
-        public async void StartRecievingResponses()
-        {
-            // запускаем новый поток для получения данных
-            try
-            {
-                await ReceiveMessageAsync();
-            }
-            catch (MyClientException ex)
-            {
-                throw new MyClientException(ex.Message);
-            }
+        //public async void StartRecievingResponses(Dictionary<string, Task> tasks)
+        //{
+        //    // запускаем новый поток для получения данных
+        //    try
+        //    {
+        //        await ReceiveMessageAsync(tasks);
+        //    }
+        //    catch (MyClientException ex)
+        //    {
+        //        throw new MyClientException(ex.Message);
+        //    }
             
-        }
+        //}
         public async Task SendMessageAsync(CryptMessage cryptInfo, BigInteger secretA)
         {
             if (cryptInfo.MessageType == MessageType.ENCRYPTION)
@@ -76,16 +77,23 @@ namespace Client
 
         }
         // получение сообщений
-        public async Task ReceiveMessageAsync(CancellationToken token = default)
+
+        public Task ReceiveMessageAsync(Dictionary<string, (MessageType cryptOp, Task task)> tasks,CancellationToken token = default)
         {
             while (true)
             {
+                if(Reader == null)
+                {
+                    throw new StreamNotOpenedException("Reader is null");
+                }
                 string? message = Reader.ReadLine();
 
                 CryptMessage cryptMessage = JsonConvert.DeserializeObject<CryptMessage>(message);
                 if (cryptMessage.HasError)
                 {
-                    throw new MyClientException(cryptMessage.ErrorMsg);
+                    MyClientException myClientExc = new(cryptMessage.ErrorMsg);
+                    tasks[cryptMessage.FileIn] = (cryptMessage.MessageType.Value, Task.FromException(myClientExc));
+                    return tasks[cryptMessage.FileIn].task;
                 }
                 SecretKeyData keyData;
                 try
@@ -100,19 +108,19 @@ namespace Client
 
                 if (cryptMessage.MessageType == MessageType.ENCRYPTION)
                 {
-                    Task.Run(() => 
+                    tasks[cryptMessage.FileIn] = (cryptMessage.MessageType.Value, Task.Run(() => 
                     {
                         CryptoMachine.EncryptAsync(cryptMessage, token);
-                    }, token);
+                    }, token));
                 }
                 else if (cryptMessage.MessageType == MessageType.DECRYPTION)
                 {
-                    Task<Exception>.Run(() =>
+                    tasks[cryptMessage.FileIn] = (cryptMessage.MessageType.Value, Task<Exception>.Run(() =>
                     {
                         Task innerTask = CryptoMachine.DecryptAsync(cryptMessage, token);
                         innerTask.GetAwaiter().GetResult();
                         return innerTask.Exception;
-                    }, token);
+                    }, token));
                 }
             }
         }

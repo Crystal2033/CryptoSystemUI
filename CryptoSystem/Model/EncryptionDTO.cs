@@ -76,6 +76,13 @@ namespace CryptoSystem.Model
             set { progressPercents = value; OnPropertyChanged(nameof(ProgressPercents)); }
         }
 
+        private Status cryptStatus;
+
+        public Status CryptStatus
+        {
+            get { return cryptStatus; }
+            set { cryptStatus = value; }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
