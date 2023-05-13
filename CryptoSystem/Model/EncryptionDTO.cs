@@ -1,17 +1,21 @@
-﻿using System;
+﻿using CryptoSystem.Commands;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using XTR_TWOFISH.CypherEnums;
 
 namespace CryptoSystem.Model
 {
     public sealed class EncryptionDTO : INotifyPropertyChanged
     {
-		private string fileToEncrypt = "";
+        public string Id { get; } = Guid.NewGuid().ToString();
+
+        private string fileToEncrypt = "";
 
 		public string FileToEncrypt
 		{
@@ -81,7 +85,28 @@ namespace CryptoSystem.Model
         public Status CryptStatus
         {
             get { return cryptStatus; }
-            set { cryptStatus = value; }
+            set { cryptStatus = value; OnPropertyChanged(nameof(CryptStatus)); }
+        }
+
+        private ICommand onDeleteWidget;
+
+        public ICommand OnDeleteWidget
+        {
+            get { return onDeleteWidget ?? (onDeleteWidget = new RelayCommand(DeleteWidget, CanDeleteWidget)); }
+            set { onDeleteWidget = value; }
+        }
+        private void DeleteWidget(object param)
+        {
+
+        }
+
+        private bool CanDeleteWidget(object param)
+        {
+            if (CryptStatus == Status.RUNNING)
+            {
+                return false;
+            }
+            return true;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

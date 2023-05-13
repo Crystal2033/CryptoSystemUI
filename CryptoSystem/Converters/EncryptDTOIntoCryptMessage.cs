@@ -14,6 +14,7 @@ namespace CryptoSystem.Converters
         public static CryptMessage Convert(EncryptionDTO encryptionDTO)
         {
             CryptMessage message = new CryptMessage();
+            message.Id = encryptionDTO.Id;
             message.FileIn = encryptionDTO.FileToEncrypt;
             message.FileOut = encryptionDTO.ResultEncryptFile;
             message.KeySize = encryptionDTO.KeySize;

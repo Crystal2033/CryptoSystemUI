@@ -60,17 +60,13 @@ namespace CryptoSystem.ViewModel
                 Task.Run(() => { MakeEncryption(encryptionDTO);});
                 encryptionWidgets.Add(encryptionDTO);
             }
-            else
-            {
-                MessageBox.Show("Add Encryption cancelled");
-            }
         }
 
-        public void SetCryptStatus(string inFileName, MessageType cryptOp, Status status)
+        public void SetCryptStatus(string id, MessageType cryptOp, Status status)
         {
             if (cryptOp == MessageType.ENCRYPTION)
             {
-                EncryptionDTO widget = EncryptionWidgets.FirstOrDefault(encrDto => encrDto.FileToEncrypt == inFileName);
+                EncryptionDTO widget = EncryptionWidgets.FirstOrDefault(encrDto => encrDto.Id == id);
                 if (widget != null)
                 {
                     widget.CryptStatus = status;
@@ -78,7 +74,7 @@ namespace CryptoSystem.ViewModel
             }
             else if (cryptOp == MessageType.DECRYPTION)
             {
-                DecryptionDTO widget = DecryptionWidgets.FirstOrDefault(decrDto => decrDto.FileToDecrypt == inFileName);
+                DecryptionDTO widget = DecryptionWidgets.FirstOrDefault(decrDto => decrDto.Id == id);
                 
                 if (widget != null)
                 {
@@ -87,27 +83,23 @@ namespace CryptoSystem.ViewModel
             }
         }
 
-        public bool DeleteCryptOperationFromWidgets(string inFileName, MessageType cryptOp)
+        public bool DeleteCryptOperationFromWidgets(string id)
         {
-            if(cryptOp == MessageType.ENCRYPTION)
+            
+            EncryptionDTO encryptionWidget = EncryptionWidgets.FirstOrDefault(encrDto => encrDto.Id == id);
+            if (encryptionWidget != null)
             {
-                EncryptionDTO widget = EncryptionWidgets.FirstOrDefault(encrDto => encrDto.FileToEncrypt == inFileName);
-                if (widget != null)
-                {
-                    EncryptionWidgets.Remove(widget);
-                    return true;
-                }
+                EncryptionWidgets.Remove(encryptionWidget);
+                return true;
+            }
                 
-            }
-            else if(cryptOp == MessageType.DECRYPTION)
+            DecryptionDTO decryptionWidget = DecryptionWidgets.FirstOrDefault(decrDto => decrDto.Id == id);
+            if (decryptionWidget != null)
             {
-                DecryptionDTO widget = DecryptionWidgets.FirstOrDefault(decrDto => decrDto.FileToDecrypt == inFileName);
-                if (widget != null)
-                {
-                    DecryptionWidgets.Remove(widget);
-                    return true;
-                }
+                DecryptionWidgets.Remove(decryptionWidget);
+                return true;
             }
+          
             return false;
         }
 
@@ -167,10 +159,6 @@ namespace CryptoSystem.ViewModel
                 Task.Run(() => { MakeDecryption(decryptionDTO); });
                 decryptionWidgets.Add(decryptionDTO);
             }
-            else
-            {
-                MessageBox.Show("Add Encryption cancelled");
-            }
         }
 
         private bool CanAddDecryption(object param)
@@ -206,5 +194,7 @@ namespace CryptoSystem.ViewModel
                 
             });
         }
+
+       
     }
 }

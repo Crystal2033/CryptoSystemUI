@@ -33,7 +33,9 @@ namespace CryptoSystem
         {
             InitializeComponent();
             DataContext = new CryptoSystemVM();
-            
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt= @"D:\Paul\Programming\C#\XTR_Twofish\ClientServer\testFiles", ResultEncryptFile= @"D:\Paul\Programming\C#\XTR_Twofish\ClientServer\testFiles", CypheredBytes = (long)(long.MaxValue*0.75), CryptStatus=Model.Status.RUNNING });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { CypheredBytes = long.MaxValue/2, CryptStatus=Model.Status.RUNNING });
+            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { CypheredBytes = long.MaxValue/2, CryptStatus=Model.Status.RUNNING });
             clientReciever = new(getContext().Client);
             try
             {
@@ -79,7 +81,7 @@ namespace CryptoSystem
                 else if (task.Value.task.IsCompletedSuccessfully)
                 {
                     clientReciever.Tasks.Remove(task.Key);
-                    getContext().SetCryptStatus(task.Key, task.Value.cryptOp, Model.Status.SUCCESS);
+                    //getContext().SetCryptStatus(task.Key, task.Value.cryptOp, Model.Status.SUCCESS);
                     //getContext().DeleteCryptOperationFromWidgets(task.Key, task.Value.cryptOp);
                     //set done status
                 }
@@ -89,6 +91,11 @@ namespace CryptoSystem
         public CryptoSystemVM? getContext()
         {
             return DataContext as CryptoSystemVM;
+        }
+        private void OnDeleteWidgetClicked(object sender, RoutedEventArgs e)
+        {
+            string id = (string)((Button)sender).Tag;
+            getContext().DeleteCryptOperationFromWidgets(id);
         }
     }
 }

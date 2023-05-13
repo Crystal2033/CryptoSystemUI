@@ -16,6 +16,30 @@
         <coverters:RadioIntToKeySizeConverter x:Key="radioIntToKeySizeConverter"/>
         <coverters:RadioIntToSymmetricModeConverter x:Key="radioIntModeConverter"/>
         <coverters:BigIntConverter x:Key="bigIntConverter"/>
+
+        <ControlTemplate x:Key="validationTemplate">
+            <DockPanel>
+                <TextBlock Foreground="Red" Margin="2,-4,2,0" FontSize="25" FontWeight="Bold">!</TextBlock>
+                <AdornedElementPlaceholder/>
+            </DockPanel>
+        </ControlTemplate>
+
+        <Style x:Key="textBoxInError" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="BorderBrush" Value="Red"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+
+                    <Setter Property="Background" Value="#8e4d6e"/>
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                                    Path=(Validation.Errors)/ErrorContent}"/>
+                </Trigger>
+                <Trigger Property="Validation.HasError" Value="False">
+                    
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -45,7 +69,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Secret a: " Width="80" HorizontalAlignment="Center"/>
-                <TextBox Margin="20, 0, 20, 0" Text="{Binding EncryptionInfo.SecretA, Converter={StaticResource bigIntConverter}, Mode=TwoWay}" MinWidth="80" Width="Auto"/>
+                <TextBox Margin="20, 0, 20, 0" Style="{StaticResource textBoxInError}" Validation.ErrorTemplate="{StaticResource validationTemplate}" Text="{Binding EncryptionInfo.SecretA, Converter={StaticResource bigIntConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" Width="Auto"/>
             </StackPanel>
                 
             

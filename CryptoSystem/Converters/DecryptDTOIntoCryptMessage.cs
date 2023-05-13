@@ -14,6 +14,7 @@ namespace CryptoSystem.Converters
         public static CryptMessage Convert(DecryptionDTO decryptionDTO)
         {
             CryptMessage message = new CryptMessage();
+            message.Id = decryptionDTO.Id;
             message.FileIn = decryptionDTO.FileToDecrypt;
             message.FileOut = decryptionDTO.ResultDecryptFile;
             message.KeyFile = decryptionDTO.KeyFile;

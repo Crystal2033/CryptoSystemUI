@@ -93,8 +93,8 @@ namespace Client
                 if (cryptMessage.HasError)
                 {
                     MyClientException myClientExc = new(cryptMessage.ErrorMsg);
-                    tasks[cryptMessage.FileIn] = (cryptMessage.MessageType.Value, Task.FromException(myClientExc));
-                    return tasks[cryptMessage.FileIn].task;
+                    tasks[cryptMessage.Id] = (cryptMessage.MessageType.Value, Task.FromException(myClientExc));
+                    return tasks[cryptMessage.Id].task;
                 }
                 SecretKeyData keyData;
                 try
@@ -109,14 +109,14 @@ namespace Client
 
                 if (cryptMessage.MessageType == MessageType.ENCRYPTION)
                 {
-                    tasks[cryptMessage.FileIn] = (cryptMessage.MessageType.Value, Task.Run(() => 
+                    tasks[cryptMessage.Id] = (cryptMessage.MessageType.Value, Task.Run(() => 
                     {
                         CryptoMachine.EncryptAsync(cryptMessage, token);
                     }, token));
                 }
                 else if (cryptMessage.MessageType == MessageType.DECRYPTION)
                 {
-                    tasks[cryptMessage.FileIn] = (cryptMessage.MessageType.Value, Task<Exception>.Run(() =>
+                    tasks[cryptMessage.Id] = (cryptMessage.MessageType.Value, Task<Exception>.Run(() =>
                     {
                         Task innerTask = CryptoMachine.DecryptAsync(cryptMessage, token);
                         innerTask.GetAwaiter().GetResult();

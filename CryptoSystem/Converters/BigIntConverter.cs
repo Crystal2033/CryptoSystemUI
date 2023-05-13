@@ -14,7 +14,7 @@ namespace CryptoSystem.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return value;
+            return value.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -24,7 +24,7 @@ namespace CryptoSystem.Converters
             if (!BigInteger.TryParse(valueString, NumberStyles.Integer, null, out result))
             {
                 var stripped = Regex.Replace(valueString, "\\D", "");
-                return stripped.Length == 0 ? 0 : stripped;
+                return stripped.Length == 0 ? "" : BigInteger.Parse(stripped);
             }
             return result;
         }

@@ -12,7 +12,9 @@ namespace Client
 {
     public class CryptMessage
     {
-		private GFP2.Polynom1DegreeCoeffs? traceG;
+        public string Id { get; set; } = "";
+
+        private GFP2.Polynom1DegreeCoeffs? traceG;
 
 		public GFP2.Polynom1DegreeCoeffs? TraceG
 		{
