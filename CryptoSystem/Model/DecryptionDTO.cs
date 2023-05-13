@@ -72,6 +72,13 @@ namespace CryptoSystem.Model
             set { cryptStatus = value; OnPropertyChanged(nameof(CryptStatus)); }
         }
 
+        private string errorMsg = "";
+        public string ErrorMessage
+        {
+            get { return errorMsg; }
+            set { errorMsg = value; OnPropertyChanged(nameof(ErrorMessage)); }
+        }
+
         private ICommand onDeleteWidget;
 
         public ICommand OnDeleteWidget

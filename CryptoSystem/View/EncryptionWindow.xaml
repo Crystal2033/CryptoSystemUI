@@ -4,18 +4,86 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoSystem.ViewModel"
-        xmlns:coverters="clr-namespace:CryptoSystem.Converters"
+        xmlns:converters="clr-namespace:CryptoSystem.Converters"
         mc:Ignorable="d"
-        Title="EncryptionWindow" Height="300" Width="400" WindowStartupLocation="CenterScreen">
+        Title="Encryption parameters" Height="450" Width="700" WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <local:EncryptionDialogVM/>
     </Window.DataContext>
-    
+
     <Window.Resources>
-        <coverters:RadioIntToKeySizeConverter x:Key="radioIntToKeySizeConverter"/>
-        <coverters:RadioIntToSymmetricModeConverter x:Key="radioIntModeConverter"/>
-        <coverters:BigIntConverter x:Key="bigIntConverter"/>
+        <converters:RadioIntToKeySizeConverter x:Key="radioIntToKeySizeConverter"/>
+        <converters:RadioIntToSymmetricModeConverter x:Key="radioIntModeConverter"/>
+        <converters:BigIntConverter x:Key="bigIntConverter"/>
+
+
+        <Style TargetType="Button" x:Key="EncryptBtn">
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" 
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="#FF6A696A"/>
+                    <Setter Property="FontSize" Value="30"/>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF262827"/>
+                                <GradientStop Color="#FF28442B" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Foreground" Value="#FFD4E5D6" />
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF0E7642"/>
+                                <GradientStop Color="#FF39AC46" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="FontWeight" Value="Medium"/>
+                    <Setter Property="FontSize" Value="30"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="TextInfoField">
+            <Setter Property="TextBlock.Foreground" Value="#FFD7D7D7"/>
+            <Setter Property="TextBlock.FontSize" Value="14" />
+        </Style>
+
+        <Style x:Key="TextPathStyle">
+            <Setter Property="TextBlock.Foreground" Value="#fff" />
+            <Setter Property="TextBlock.FontSize" Value="14" />
+        </Style>
+
+        <Style x:Key="RadioBtnsText">
+            <Setter Property="TextBlock.Foreground" Value="#fff" />
+            <Setter Property="TextBlock.FontSize" Value="14" />
+            <Setter Property="TextBlock.Padding" Value="3, -3, 0, 0"/>
+        </Style>
+
+        <Style x:Key="TitleOperationsStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Castellar" />
+            <Setter Property="TextBlock.Foreground" Value="White" />
+            <Setter Property="TextBlock.FontSize" Value="40" />
+        </Style>
 
         <ControlTemplate x:Key="validationTemplate">
             <DockPanel>
@@ -36,13 +104,19 @@
                                     Path=(Validation.Errors)/ErrorContent}"/>
                 </Trigger>
                 <Trigger Property="Validation.HasError" Value="False">
-                    
+
                 </Trigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
 
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF32A03D" Offset="1"/>
+                <GradientStop Color="#FF0B120C" Offset="0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"/>
             <RowDefinition/>
@@ -55,44 +129,52 @@
             <ColumnDefinition Width="0.1*"/>
         </Grid.ColumnDefinitions>
 
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Encryption" Style="{StaticResource TitleOperationsStyle}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="File to encrypt: " Width="80"/>
-                <TextBlock Margin="20, 0, 20, 0" Text="{Binding EncryptionInfo.FileToEncrypt, Mode=TwoWay}" MinWidth="100" Width="Auto"/>
-                <Button Content="Load" Command="{Binding OnLoadFileToEncrypt}"/>
+
+            <StackPanel Orientation="Vertical" Margin="0, 20, 0, 0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="File to encrypt: " Style="{StaticResource TextInfoField}"/>
+                    <Button Content="Load" Command="{Binding OnLoadFileToEncrypt}" Margin="20, 0, 0, 0"/>
+                </StackPanel>
+                <TextBlock HorizontalAlignment="Center" Style="{StaticResource TextPathStyle}" Margin="20, 0, 20, 10"  Text="{Binding EncryptionInfo.FileToEncrypt, Mode=TwoWay}" TextWrapping="Wrap" Width="Auto"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Result file: "  Width="80"/>
-                <TextBlock Margin="20, 0, 20, 0" Text="{Binding EncryptionInfo.ResultEncryptFile, Mode=TwoWay}" MinWidth="100" Width="Auto"/>
-                <Button Content="Save" Command="{Binding OnSaveResultFile}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Secret a: " Width="80" HorizontalAlignment="Center"/>
-                <TextBox Margin="20, 0, 20, 0" Style="{StaticResource textBoxInError}" Validation.ErrorTemplate="{StaticResource validationTemplate}" Text="{Binding EncryptionInfo.SecretA, Converter={StaticResource bigIntConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" Width="Auto"/>
-            </StackPanel>
-                
-            
-            
-            <TextBlock Text="Key size (bits)" HorizontalAlignment="Center" Margin="0, 15, 0, 5"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <RadioButton FlowDirection="RightToLeft" GroupName="Languages" Content="128" IsChecked="{Binding Path=EncryptionInfo.KeySize, Converter={StaticResource radioIntToKeySizeConverter}, ConverterParameter=128, Mode=TwoWay}" Margin="50, 0, 50, 0"/>
-                <RadioButton FlowDirection="RightToLeft" GroupName="Languages" Content="192" IsChecked="{Binding Path=EncryptionInfo.KeySize, Converter={StaticResource radioIntToKeySizeConverter}, ConverterParameter=192, Mode=TwoWay}" Margin="50, 0, 50, 0"/>
-                <RadioButton FlowDirection="RightToLeft" GroupName="Languages" Content="256" IsChecked="{Binding Path=EncryptionInfo.KeySize, Converter={StaticResource radioIntToKeySizeConverter}, ConverterParameter=256, Mode=TwoWay}" Margin="50, 0, 50, 0"/>
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Result file: "  Style="{StaticResource TextInfoField}"/>
+                    <Button Content="Save" Command="{Binding OnSaveResultFile}" Margin="47, 0, 0, 0"/>
+                </StackPanel>
+                <TextBlock HorizontalAlignment="Center" Style="{StaticResource TextPathStyle}" Margin="20, 0, 20, 10" Text="{Binding EncryptionInfo.ResultEncryptFile, Mode=TwoWay}" TextWrapping="Wrap" Width="Auto"/>
             </StackPanel>
 
-            <TextBlock Text="Encryption mode" HorizontalAlignment="Center" Margin="0, 15, 0, 5"/>
-            
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <RadioButton GroupName="Modes" Content="CBC" FlowDirection="RightToLeft"  IsChecked="{Binding Path=EncryptionInfo.SymmetricMode, Converter={StaticResource radioIntModeConverter}, ConverterParameter=1, Mode=TwoWay}" Margin="0, 0 ,0, 0"/>
-                <RadioButton GroupName="Modes" Content="CFB" FlowDirection="RightToLeft"  IsChecked="{Binding Path=EncryptionInfo.SymmetricMode, Converter={StaticResource radioIntModeConverter}, ConverterParameter=2, Mode=TwoWay}" Margin="15, 0 ,0, 0"/>
-                <RadioButton GroupName="Modes" Content="OFB" FlowDirection="RightToLeft"  IsChecked="{Binding Path=EncryptionInfo.SymmetricMode, Converter={StaticResource radioIntModeConverter}, ConverterParameter=3, Mode=TwoWay}" Margin="15, 0 ,0, 0"/>
-                <RadioButton GroupName="Modes" Content="CTR" FlowDirection="RightToLeft"  IsChecked="{Binding Path=EncryptionInfo.SymmetricMode, Converter={StaticResource radioIntModeConverter}, ConverterParameter=4, Mode=TwoWay}" Margin="15, 0 ,0, 0"/>
-                <RadioButton GroupName="Modes" Content="RD"  FlowDirection="RightToLeft"  IsChecked="{Binding Path=EncryptionInfo.SymmetricMode, Converter={StaticResource radioIntModeConverter}, ConverterParameter=5, Mode=TwoWay}" Margin="15, 0 ,0, 0"/>
-                <RadioButton GroupName="Modes" Content="RD-H" FlowDirection="RightToLeft" IsChecked="{Binding Path=EncryptionInfo.SymmetricMode, Converter={StaticResource radioIntModeConverter}, ConverterParameter=6, Mode=TwoWay}" Margin="15, 0 ,0, 0" />
-            </StackPanel>                                                    
+                <TextBlock Text="Secret a: " HorizontalAlignment="Center" Style="{StaticResource TextInfoField}"/>
+                <TextBox Margin="25, 0, 20, 0" Style="{StaticResource textBoxInError}" Validation.ErrorTemplate="{StaticResource validationTemplate}" Text="{Binding EncryptionInfo.SecretA, Converter={StaticResource bigIntConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" Width="Auto" Background="#FF4C4E4D" Foreground="White"/>
+            </StackPanel>
+
+
+
+            <TextBlock Text="Key size (bits)" Style="{StaticResource TextInfoField}" HorizontalAlignment="Center" Margin="0, 15, 0, 5"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <RadioButton Padding="3, -3, 0, 0" Style="{StaticResource TextPathStyle}" FlowDirection="RightToLeft" GroupName="Languages" Content="128" IsChecked="{Binding Path=EncryptionInfo.KeySize, Converter={StaticResource radioIntToKeySizeConverter}, ConverterParameter=128, Mode=TwoWay}" Margin="50, 0, 50, 0"/>
+                <RadioButton Padding="3, -3, 0, 0" Style="{StaticResource TextPathStyle}" FlowDirection="RightToLeft" GroupName="Languages" Content="192" IsChecked="{Binding Path=EncryptionInfo.KeySize, Converter={StaticResource radioIntToKeySizeConverter}, ConverterParameter=192, Mode=TwoWay}" Margin="50, 0, 50, 0"/>
+                <RadioButton Padding="3, -3, 0, 0" Style="{StaticResource TextPathStyle}" FlowDirection="RightToLeft" GroupName="Languages" Content="256" IsChecked="{Binding Path=EncryptionInfo.KeySize, Converter={StaticResource radioIntToKeySizeConverter}, ConverterParameter=256, Mode=TwoWay}" Margin="50, 0, 50, 0"/>
+            </StackPanel>
+
+            <TextBlock Text="Encryption mode" Style="{StaticResource TextInfoField}" HorizontalAlignment="Center" Margin="0, 15, 0, 5"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <RadioButton Padding="3, -3, 0, 0" Style="{StaticResource TextPathStyle}" GroupName="Modes" Content="CBC" FlowDirection="RightToLeft"  IsChecked="{Binding Path=EncryptionInfo.SymmetricMode, Converter={StaticResource radioIntModeConverter}, ConverterParameter=1, Mode=TwoWay}" Margin="0, 0 ,0, 0"/>
+                <RadioButton Padding="3, -3, 0, 0" Style="{StaticResource TextPathStyle}" GroupName="Modes" Content="CFB" FlowDirection="RightToLeft"  IsChecked="{Binding Path=EncryptionInfo.SymmetricMode, Converter={StaticResource radioIntModeConverter}, ConverterParameter=2, Mode=TwoWay}" Margin="15, 0 ,0, 0"/>
+                <RadioButton Padding="3, -3, 0, 0" Style="{StaticResource TextPathStyle}" GroupName="Modes" Content="OFB" FlowDirection="RightToLeft"  IsChecked="{Binding Path=EncryptionInfo.SymmetricMode, Converter={StaticResource radioIntModeConverter}, ConverterParameter=3, Mode=TwoWay}" Margin="15, 0 ,0, 0"/>
+                <RadioButton Padding="3, -3, 0, 0" Style="{StaticResource TextPathStyle}" GroupName="Modes" Content="CTR" FlowDirection="RightToLeft"  IsChecked="{Binding Path=EncryptionInfo.SymmetricMode, Converter={StaticResource radioIntModeConverter}, ConverterParameter=4, Mode=TwoWay}" Margin="15, 0 ,0, 0"/>
+                <RadioButton Padding="3, -3, 0, 0" Style="{StaticResource TextPathStyle}" GroupName="Modes" Content="RD"  FlowDirection="RightToLeft"  IsChecked="{Binding Path=EncryptionInfo.SymmetricMode, Converter={StaticResource radioIntModeConverter}, ConverterParameter=5, Mode=TwoWay}" Margin="15, 0 ,0, 0"/>
+                <RadioButton Padding="3, -3, 0, 0" Style="{StaticResource TextPathStyle}" GroupName="Modes" Content="RD-H" FlowDirection="RightToLeft" IsChecked="{Binding Path=EncryptionInfo.SymmetricMode, Converter={StaticResource radioIntModeConverter}, ConverterParameter=6, Mode=TwoWay}" Margin="15, 0 ,0, 0" />
+            </StackPanel>
 
         </StackPanel>
-        <Button Grid.Row="1" Grid.Column="1" Content="Encrypt" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Command="{Binding OnMakeEncryption}" Click="OnMakeEncryptionClicked"/>
+        <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource EncryptBtn}" Width="300" Content="Encrypt" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Command="{Binding OnMakeEncryption}" Click="OnMakeEncryptionClicked"/>
     </Grid>
 </Window>

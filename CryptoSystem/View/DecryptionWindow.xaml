@@ -5,13 +5,82 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoSystem.ViewModel"
         mc:Ignorable="d"
-        Title="DecryptionWindow" Height="300" Width="400" WindowStartupLocation="CenterScreen">
+        Title="Decryption parameters" Height="350" Width="700" WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <local:DecryptionDialogVM/>
     </Window.DataContext>
-    
+
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="DecryptBtn">
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" 
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="#FF6A696A"/>
+                    <Setter Property="FontSize" Value="30"/>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF202428"/>
+                                <GradientStop Color="#FF3A616C" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Foreground" Value="#FFD4E5D6" />
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF0870DA"/>
+                                <GradientStop Color="#FF1DBDC3" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="FontWeight" Value="Medium"/>
+                    <Setter Property="FontSize" Value="30"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="TextInfoField">
+            <Setter Property="TextBlock.Foreground" Value="#FFD7D7D7"/>
+            <Setter Property="TextBlock.FontSize" Value="14" />
+        </Style>
+
+        <Style x:Key="TextPathStyle">
+            <Setter Property="TextBlock.Foreground" Value="#fff" />
+            <Setter Property="TextBlock.FontSize" Value="14" />
+        </Style>
+
+        <Style x:Key="TitleOperationsStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Castellar" />
+            <Setter Property="TextBlock.Foreground" Value="White" />
+            <Setter Property="TextBlock.FontSize" Value="40" />
+        </Style>
+    </Window.Resources>
+
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF0B1019"/>
+                <GradientStop Color="#FF5578BA" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"/>
             <RowDefinition/>
@@ -24,27 +93,36 @@
             <ColumnDefinition Width="0.1*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="File to decrypt: " Width="80"/>
-                <TextBlock Margin="20, 0, 20, 0" Text="{Binding DecryptionInfo.FileToDecrypt, Mode=TwoWay}" MinWidth="100" Width="Auto"/>
-                <Button Content="Load" Command="{Binding OnLoadFileToDecrypt}"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Decryption" Style="{StaticResource TitleOperationsStyle}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="0, 20, 0, 0">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="File to decrypt: " Style="{StaticResource TextInfoField}"/>
+                    <Button Content="Load" Command="{Binding OnLoadFileToDecrypt}" Margin="20, 0, 0, 0"/>
+                </StackPanel>
+                <TextBlock HorizontalAlignment="Center" Style="{StaticResource TextPathStyle}" Margin="20, 0, 20, 10"  Text="{Binding DecryptionInfo.FileToDecrypt, Mode=TwoWay}" TextWrapping="Wrap" Width="Auto"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Key file: " Width="80" HorizontalAlignment="Center"/>
-                <TextBlock Margin="20, 0, 20, 0" Text="{Binding DecryptionInfo.KeyFile, Mode=TwoWay}" MinWidth="100" Width="Auto"/>
-                <Button Content="Load" Command="{Binding OnLoadKeyFile}"/>
+
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Key file: " Style="{StaticResource TextInfoField}"/>
+                    <Button Content="Load" Command="{Binding OnLoadKeyFile}" Margin="63, 0, 0, 0"/>
+                </StackPanel>
+                <TextBlock HorizontalAlignment="Center" Style="{StaticResource TextPathStyle}" Margin="20, 0, 20, 10"  Text="{Binding DecryptionInfo.KeyFile, Mode=TwoWay}" TextWrapping="Wrap" Width="Auto"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Result file: "  Width="80"/>
-                <TextBlock Margin="20, 0, 20, 0" Text="{Binding DecryptionInfo.ResultDecryptFile, Mode=TwoWay}" MinWidth="100" Width="Auto"/>
-                <Button Content="Save" Command="{Binding OnLoadResultDecryptFile}"/>
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Result file: " Style="{StaticResource TextInfoField}"/>
+                    <Button Content="Save" Command="{Binding OnLoadResultDecryptFile}" Margin="48, 0, 0, 0"/>
+                </StackPanel>
+                <TextBlock HorizontalAlignment="Center" Style="{StaticResource TextPathStyle}" Margin="20, 0, 20, 10"  Text="{Binding DecryptionInfo.ResultDecryptFile, Mode=TwoWay}" TextWrapping="Wrap" Width="Auto"/>
             </StackPanel>
-
 
         </StackPanel>
-        <Button Grid.Row="1" Grid.Column="1" Content="Decrypt" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Command="{Binding OnMakeDecryption}" Click="OnMakeDecryptionClicked"/>
+        <Button Grid.Row="1" Style="{StaticResource DecryptBtn}" Width="300" Grid.Column="1" Content="Decrypt" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Command="{Binding OnMakeDecryption}" Click="OnMakeDecryptionClicked"/>
+
     </Grid>
 </Window>

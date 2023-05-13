@@ -4,6 +4,9 @@
              xmlns:local="clr-namespace:CryptoSystem"
              StartupUri="View/MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <BitmapImage x:Key="titleIcon" UriSource="\Resources\private-key.png"/>
+            <BitmapImage x:Key="addIcon" UriSource="\Resources\plus.png"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

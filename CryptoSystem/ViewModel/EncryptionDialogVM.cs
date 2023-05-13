@@ -75,7 +75,10 @@ namespace CryptoSystem.ViewModel
             if(EncryptionInfo.FileToEncrypt != "" && EncryptionInfo.ResultEncryptFile != "" &&
                 EncryptionInfo.SecretA >= 0 && EncryptionInfo.KeySize != 0 && EncryptionInfo.SymmetricMode > 0)
             {
-                return true;
+                if(EncryptionInfo.FileToEncrypt != EncryptionInfo.ResultEncryptFile)
+                {
+                    return true;
+                }
             }
             return false;
         }

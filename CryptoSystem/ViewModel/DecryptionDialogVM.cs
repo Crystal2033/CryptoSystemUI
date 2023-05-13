@@ -90,7 +90,10 @@ namespace CryptoSystem.ViewModel
             if (DecryptionInfo.FileToDecrypt != "" && DecryptionInfo.ResultDecryptFile != "" &&
                 DecryptionInfo.KeyFile != "" )
             {
-                return true;
+                if (DecryptionInfo.FileToDecrypt != DecryptionInfo.ResultDecryptFile)
+                {
+                    return true;
+                }
             }
             return false;
         }

@@ -62,14 +62,22 @@ namespace CryptoSystem.ViewModel
             }
         }
 
-        public void SetCryptStatus(string id, MessageType cryptOp, Status status)
+        public void SetCryptStatus(string id, MessageType cryptOp, Status status, string exception="")
         {
             if (cryptOp == MessageType.ENCRYPTION)
             {
                 EncryptionDTO widget = EncryptionWidgets.FirstOrDefault(encrDto => encrDto.Id == id);
                 if (widget != null)
                 {
+
                     widget.CryptStatus = status;
+                    widget.ErrorMessage = exception;
+                    if(status == Status.FAILED)
+                    {
+                        widget.CypheredBytes = 0;
+                        widget.FileSize = long.MaxValue;
+                    }
+                    
                 }
             }
             else if (cryptOp == MessageType.DECRYPTION)
@@ -79,6 +87,12 @@ namespace CryptoSystem.ViewModel
                 if (widget != null)
                 {
                     widget.CryptStatus = status;
+                    widget.ErrorMessage = exception;
+                    if (status == Status.FAILED)
+                    {
+                        widget.CypheredBytes = 0;
+                        widget.FileSize = long.MaxValue;
+                    }
                 }
             }
         }
@@ -122,8 +136,9 @@ namespace CryptoSystem.ViewModel
             CryptMessage cryptMessage = EncryptDTOIntoCryptMessage.Convert(encryptionDTO);
             if (File.Exists(encryptionDTO.ResultEncryptFile))
             {
-                File.Delete(encryptionDTO.ResultEncryptFile);
+                File.WriteAllText(encryptionDTO.ResultEncryptFile, string.Empty);
             }
+
             await Client.SendMessageAsync(cryptMessage, encryptionDTO.SecretA);
             encryptionDTO.FileSize = GetFileSize(encryptionDTO.FileToEncrypt);
             await Task.Run(() =>
@@ -135,10 +150,6 @@ namespace CryptoSystem.ViewModel
                     {
                         encryptionDTO.CypheredBytes = encryptionDTO.FileSize;
                     }
-                }
-                if(encryptionDTO.CryptStatus == Status.RUNNING)
-                {
-                    encryptionDTO.CryptStatus = Status.SUCCESS;
                 }
             });
         }
@@ -171,7 +182,7 @@ namespace CryptoSystem.ViewModel
             CryptMessage cryptMessage = DecryptDTOIntoCryptMessage.Convert(decryptionDTO);
             if (File.Exists(decryptionDTO.ResultDecryptFile))
             {
-                File.Delete(decryptionDTO.ResultDecryptFile);
+                File.WriteAllText(decryptionDTO.ResultDecryptFile, string.Empty);
             }
 
             await Client.SendMessageAsync(cryptMessage, 0);
@@ -186,10 +197,6 @@ namespace CryptoSystem.ViewModel
                         decryptionDTO.CypheredBytes = decryptionDTO.FileSize;
                         break;
                     }
-                }
-                if(decryptionDTO.CryptStatus == Status.RUNNING)
-                {
-                    decryptionDTO.CryptStatus = Status.SUCCESS;
                 }
                 
             });

@@ -62,18 +62,18 @@ namespace CryptoSystem.ViewModel
                             //cryptSystem.DecryptionWidgets[cryptSystem.DecryptionWidgets.Count - 1].FileToDecrypt = "Damaged";
                             MessageBox.Show($"Decrypting file had been damaged. Message {ex.Message}", "DamagedFileException", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
-                        //catch (StreamNotOpenedException ex)
-                        //{
-                        //    //cryptSystem.DecryptionWidgets[cryptSystem.DecryptionWidgets.Count - 1].FileToDecrypt = "Damaged";
-                        //    MessageBox.Show($"Buffer was unexpectedly closed. Message {ex.Message}", "StreamNotOpenedException", MessageBoxButton.OK, MessageBoxImage.Error);
-                        //    return;
-                        //}
-                        //catch (IOException ex)
-                        //{
-                        //    //cryptSystem.DecryptionWidgets[cryptSystem.DecryptionWidgets.Count - 1].FileToDecrypt = "Damaged";
-                        //    MessageBox.Show($"There are problems with IO streams. Message {ex.Message}", "IOException", MessageBoxButton.OK, MessageBoxImage.Error);
-                        //    return;
-                        //}
+                        catch (StreamNotOpenedException ex)
+                        {
+                            //cryptSystem.DecryptionWidgets[cryptSystem.DecryptionWidgets.Count - 1].FileToDecrypt = "Damaged";
+                            MessageBox.Show($"Buffer was unexpectedly closed. Message {ex.Message}", "StreamNotOpenedException", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+                        catch (IOException ex)
+                        {
+                            //cryptSystem.DecryptionWidgets[cryptSystem.DecryptionWidgets.Count - 1].FileToDecrypt = "Damaged";
+                            MessageBox.Show($"There are problems with IO streams. Message {ex.Message}", "IOException", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
                     }
                 });
             }

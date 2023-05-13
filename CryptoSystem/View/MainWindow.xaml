@@ -4,41 +4,123 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoSystem.ViewModel"
+        xmlns:converters="clr-namespace:CryptoSystem.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="XTR_TwoFish" Height="900" Width="1400" Icon="{StaticResource titleIcon}" WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <local:CryptoSystemVM/>
     </Window.DataContext>
 
     <Window.Resources>
+        <converters:StatusColorConverter x:Key="statusColorConverter"/>
+        <converters:KeySizeColorConverter x:Key="keySizeColorConverter"/>
+        <converters:ModeColorConverter x:Key="modeColorConverter"/>
+        <converters:ProgressBarColorConverter x:Key="progressColorConverter"/>
+        
+        <Image x:Key="AddImage" Source="D:\Paul\Programming\C#\XTR_Twofish\CryptoSystem\CryptoSystem\Resources\plus.png"/>
+        
         <Thickness x:Key="parametersTextMargin" Bottom="0" Left="0" Top="8" Right="0" />
+        
+        <Style x:Key="TitleOperationsStyle">
+            <Setter Property="TextBlock.FontFamily" Value="Kristen ITC" />
+            <Setter Property="TextBlock.Foreground" Value="White" />
+            <Setter Property="TextBlock.FontSize" Value="25" />
+        </Style>
+
+        <Style x:Key="TextInfoField">
+            <Setter Property="TextBlock.Foreground" Value="#c9c9c9"/>
+            <Setter Property="TextBlock.FontSize" Value="14" />
+        </Style>
+
+        <Style x:Key="TextPathStyle">
+            <Setter Property="TextBlock.Foreground" Value="#fff" />
+            <Setter Property="TextBlock.FontSize" Value="14" />
+        </Style>
+
+        <Style x:Key="TextCryptParamsStyle">
+            <Setter Property="TextBlock.Foreground" Value="#fff" />
+            <Setter Property="TextBlock.FontWeight" Value="Medium"/>
+            <Setter Property="TextBlock.FontSize" Value="15" />
+        </Style>
+
+        <Style x:Key="StatusRunning">
+            <Style.Triggers>
+                
+            </Style.Triggers>
+            <Setter Property="TextBlock.Foreground" Value="#fff" />
+            <Setter Property="TextBlock.FontSize" Value="14" />
+        </Style>
+
+        <Style x:Key="AddButtonStyle">
+            <Setter Property="Border.CornerRadius" Value="10"/>
+        </Style>
     </Window.Resources>
-    
-    <Grid>
+
+    <Grid Background="#556570">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="70"/>
             <RowDefinition/>
-            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="0.05*"/>
+            <ColumnDefinition Width="30"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Rectangle Grid.Column="1" Grid.RowSpan="3" Fill="#454c59" />
+        
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Encryption" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <Rectangle Grid.Column="1" Grid.RowSpan="2" Fill="#454c59" />
+        <Rectangle Grid.Row="2" Grid.ColumnSpan="3" Fill="#FF474748" />
+
+        <Rectangle Grid.Row="0" Grid.Column="0" >
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF2F4E2C"/>
+                    <GradientStop Color="#FF2EBE6F" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Grid.Row="0" Grid.Column="2" >
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF141C29"/>
+                    <GradientStop Color="#FF5578BA" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <TextBlock Grid.Row="2" Grid.Column="2" Foreground="#FFB1B1B1" FontSize="14" Text="© Developed by Crystal2033" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0, 0, 30, 0"/>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Encryption" TextAlignment="Center" VerticalAlignment="Center" Style="{StaticResource TitleOperationsStyle}"></TextBlock>
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
-            <TextBlock Text="Add" VerticalAlignment="Center" Margin="0, 0, 10, 0"/>
-            <Button Content="+" Width="40" Height="40" Margin="0, 0, 20, 0" Command="{Binding OnAddEncryption}"/>
-        </StackPanel>
+            <Button Width="40" Height="40" Margin="0, 0, 20, 0"  Command="{Binding OnAddEncryption}">
+                <StackPanel>
+                    <Image Source="{StaticResource addIcon}"/>
+                </StackPanel>
 
-        <TextBlock Grid.Row="0" Grid.Column="2" Text="Decryption" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="30"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel> 
+
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="Decryption" TextAlignment="Center" VerticalAlignment="Center" Style="{StaticResource TitleOperationsStyle}"></TextBlock>
         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <TextBlock Text="Add" VerticalAlignment="Center" Margin="0, 0, 10, 0"/>
-            <Button Content="+" Width="40" Height="40" Margin="0, 0, 20, 0" Command="{Binding OnAddDecryption}"/>
+            <Button Width="40" Height="40" Margin="0, 0, 20, 0" Command="{Binding OnAddDecryption}">
+                <StackPanel>
+                    <Image Source="{StaticResource addIcon}"/>
+                </StackPanel>
+
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="30"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </StackPanel>
 
         <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto">
@@ -49,26 +131,27 @@
                         <StackPanel Orientation="Vertical" Margin="0, 5, 0, 5">
                                 <Button HorizontalAlignment="Right" Height="20" Margin="0, 0, 5, -5" Click="OnDeleteWidgetClicked"  Tag="{Binding Id}" Command="{Binding OnDeleteWidget}" Width="20" Content="X" Background="Pink"/>
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                                        <TextBlock HorizontalAlignment="Center" Text="From: "/>
-                                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding FileToEncrypt}"/>
+                                    <TextBlock Style="{StaticResource TextInfoField}" HorizontalAlignment="Center" Text="From: "/>
+                                    <TextBlock Style="{StaticResource TextPathStyle}" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding FileToEncrypt}"/>
                                 </StackPanel>
                                 <StackPanel Margin="{StaticResource parametersTextMargin}" Orientation="Vertical" HorizontalAlignment="Center">
-                                        <TextBlock HorizontalAlignment="Center" Text="Into: "/>
-                                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding ResultEncryptFile}"/>
+                                    <TextBlock Style="{StaticResource TextInfoField}" HorizontalAlignment="Center" Text="Into: "/>
+                                    <TextBlock Style="{StaticResource TextPathStyle}" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding ResultEncryptFile}"/>
                                 </StackPanel>
                                 <StackPanel Margin="{StaticResource parametersTextMargin}" Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock HorizontalAlignment="Center" Text="Key size: "/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding KeySize}"/>
+                                    <TextBlock Style="{StaticResource TextInfoField}" HorizontalAlignment="Center" Text="Key size: "/>
+                                    <TextBlock Style="{StaticResource TextCryptParamsStyle}" HorizontalAlignment="Center" Foreground="{Binding KeySize, Converter={StaticResource keySizeColorConverter}}" Text="{Binding KeySize}"/>
                                 </StackPanel>
                                 <StackPanel Margin="{StaticResource parametersTextMargin}" Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock HorizontalAlignment="Center" Text="Mode: "/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding SymmetricMode}"/>
+                                    <TextBlock Style="{StaticResource TextInfoField}" HorizontalAlignment="Center" Text="Mode: "/>
+                                    <TextBlock Style="{StaticResource TextCryptParamsStyle}" HorizontalAlignment="Center" Foreground="{Binding SymmetricMode, Converter={StaticResource modeColorConverter}}" Text="{Binding SymmetricMode}"/>
                                 </StackPanel>
                                 <StackPanel Margin="{StaticResource parametersTextMargin}" Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock HorizontalAlignment="Center" Text="Status: "/>
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding CryptStatus}"/>
+                                    <TextBlock Style="{StaticResource TextInfoField}" HorizontalAlignment="Center" Text="Status: "/>
+                                    <TextBlock Style="{StaticResource TextCryptParamsStyle}" HorizontalAlignment="Center" Foreground="{Binding CryptStatus, Converter={StaticResource statusColorConverter}}" Text="{Binding CryptStatus}"/>
                                 </StackPanel>
-                                <ProgressBar Minimum="0" Maximum="{Binding FileSize, Mode=TwoWay}" Height="20" Value="{Binding CypheredBytes, Mode=TwoWay}" Name="encrStatus" Margin="0, 10, 20, 0"/>
+                                <TextBlock Style="{StaticResource TextPathStyle}" HorizontalAlignment="Center" Text="{Binding ErrorMessage}"/>
+                                <ProgressBar Foreground="{Binding ProgressPercents, Converter={StaticResource progressColorConverter}}" Minimum="0" Maximum="{Binding FileSize, Mode=TwoWay}" Height="20" Value="{Binding CypheredBytes, Mode=TwoWay}" Margin="0, 10, 20, 0"/>
                             <TextBlock Margin="0, -20, 0, 0" Text="{Binding ProgressPercents, Mode=TwoWay, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </StackPanel>
                         </Border>
@@ -82,18 +165,23 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Margin="0, 20, 0, 0" BorderBrush="DarkCyan" BorderThickness="3">
-                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical" Margin="0, 5, 0, 5">
                             <Button HorizontalAlignment="Right" Height="20" Margin="0, 0, 5, -5" Command="{Binding OnDeleteWidget}" Click="OnDeleteWidgetClicked" Tag="{Binding Id}" Width="20" Content="X" Background="Pink"/>
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <TextBlock Style="{StaticResource TextInfoField}" HorizontalAlignment="Center" Text="From: "/>
+                                    <TextBlock Style="{StaticResource TextPathStyle}" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding FileToDecrypt}"/>
+                                </StackPanel>
                                 <StackPanel Margin="{StaticResource parametersTextMargin}" Orientation="Vertical">
-                                <TextBlock HorizontalAlignment="Center" Text="From: "/>
-                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding FileToDecrypt}"/>
-                            </StackPanel>
-                                <StackPanel Margin="{StaticResource parametersTextMargin}" Orientation="Vertical">
-                                <TextBlock HorizontalAlignment="Center" Text="From: "/>
-                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding ResultDecryptFile}"/>
-                            </StackPanel>
-                            <ProgressBar Minimum="0" Maximum="{Binding FileSize, Mode=TwoWay}" Height="10" Value="{Binding CypheredBytes, Mode=TwoWay}" Name="decrStatus" Margin="0, 0, 20, 0"/>
-                                <TextBlock Text="{Binding ProgressPercents,Mode=TwoWay, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <TextBlock Style="{StaticResource TextInfoField}" HorizontalAlignment="Center" Text="Into: "/>
+                                    <TextBlock Style="{StaticResource TextPathStyle}" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding ResultDecryptFile}"/>
+                                </StackPanel>
+                                <StackPanel Margin="{StaticResource parametersTextMargin}" Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock Style="{StaticResource TextInfoField}" HorizontalAlignment="Center" Text="Status: "/>
+                                    <TextBlock Style="{StaticResource TextCryptParamsStyle}" HorizontalAlignment="Center" Foreground="{Binding CryptStatus, Converter={StaticResource statusColorConverter}}" Text="{Binding CryptStatus}"/>
+                                </StackPanel>
+                                <TextBlock Style="{StaticResource TextPathStyle}" HorizontalAlignment="Center" Text="{Binding ErrorMessage}"/>
+                                <ProgressBar Foreground="{Binding ProgressPercents, Converter={StaticResource progressColorConverter}}" Minimum="0" Maximum="{Binding FileSize, Mode=TwoWay}" Height="20" Value="{Binding CypheredBytes, Mode=TwoWay}" Margin="0, 10, 20, 0"/>
+                                <TextBlock  Margin="0, -20, 0, 0" Text="{Binding ProgressPercents,Mode=TwoWay, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>

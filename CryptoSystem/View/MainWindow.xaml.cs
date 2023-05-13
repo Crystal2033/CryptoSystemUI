@@ -33,9 +33,6 @@ namespace CryptoSystem
         {
             InitializeComponent();
             DataContext = new CryptoSystemVM();
-            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { FileToEncrypt= @"D:\Paul\Programming\C#\XTR_Twofish\ClientServer\testFiles", ResultEncryptFile= @"D:\Paul\Programming\C#\XTR_Twofish\ClientServer\testFiles", CypheredBytes = (long)(long.MaxValue*0.75), CryptStatus=Model.Status.RUNNING });
-            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { CypheredBytes = long.MaxValue/2, CryptStatus=Model.Status.RUNNING });
-            //getContext().EncryptionWidgets.Add(new Model.EncryptionDTO() { CypheredBytes = long.MaxValue/2, CryptStatus=Model.Status.RUNNING });
             clientReciever = new(getContext().Client);
             try
             {
@@ -55,7 +52,7 @@ namespace CryptoSystem
             proceesingTask = clientReciever.Processing();
 
             DispatcherTimer timer = new();
-            timer.Interval = TimeSpan.FromSeconds(2);
+            timer.Interval = TimeSpan.FromMilliseconds(200);
             timer.Tick += CheckTaskResultsAndMakeActions;
             timer.Start();
         }
@@ -72,18 +69,14 @@ namespace CryptoSystem
             {
                 if (task.Value.task.IsFaulted) //thrown exception
                 {
-                    MessageBox.Show($"Is faulted: {task.Key}");
+                    MessageBox.Show($"{task.Value.cryptOp} operation has been failed because of {task.Value.task.Exception.Message}.", task.Value.task.Exception.ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
                     clientReciever.Tasks.Remove(task.Key);
-                    getContext().SetCryptStatus(task.Key, task.Value.cryptOp, Model.Status.FAILED);
-                    //getContext().DeleteCryptOperationFromWidgets(task.Key, task.Value.cryptOp);
-                    //set error status
+                    getContext().SetCryptStatus(task.Key, task.Value.cryptOp, Model.Status.FAILED, task.Value.task.Exception.Message);
                 }
                 else if (task.Value.task.IsCompletedSuccessfully)
                 {
                     clientReciever.Tasks.Remove(task.Key);
-                    //getContext().SetCryptStatus(task.Key, task.Value.cryptOp, Model.Status.SUCCESS);
-                    //getContext().DeleteCryptOperationFromWidgets(task.Key, task.Value.cryptOp);
-                    //set done status
+                    getContext().SetCryptStatus(task.Key, task.Value.cryptOp, Model.Status.SUCCESS);
                 }
             }
         }
