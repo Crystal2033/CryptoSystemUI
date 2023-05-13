@@ -17,13 +17,13 @@
         <converters:KeySizeColorConverter x:Key="keySizeColorConverter"/>
         <converters:ModeColorConverter x:Key="modeColorConverter"/>
         <converters:ProgressBarColorConverter x:Key="progressColorConverter"/>
-        
+
         <Image x:Key="AddImage" Source="D:\Paul\Programming\C#\XTR_Twofish\CryptoSystem\CryptoSystem\Resources\plus.png"/>
-        
+
         <Thickness x:Key="parametersTextMargin" Bottom="0" Left="0" Top="8" Right="0" />
-        
+
         <Style x:Key="TitleOperationsStyle">
-            <Setter Property="TextBlock.FontFamily" Value="Kristen ITC" />
+            <Setter Property="TextBlock.FontFamily" Value="Castellar" />
             <Setter Property="TextBlock.Foreground" Value="White" />
             <Setter Property="TextBlock.FontSize" Value="25" />
         </Style>
@@ -46,7 +46,7 @@
 
         <Style x:Key="StatusRunning">
             <Style.Triggers>
-                
+
             </Style.Triggers>
             <Setter Property="TextBlock.Foreground" Value="#fff" />
             <Setter Property="TextBlock.FontSize" Value="14" />
@@ -57,7 +57,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid Background="#556570">
+    <Grid Background="#FF304758">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition/>
@@ -69,15 +69,22 @@
             <ColumnDefinition Width="30"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
 
-        <Rectangle Grid.Column="1" Grid.RowSpan="2" Fill="#454c59" />
-        <Rectangle Grid.Row="2" Grid.ColumnSpan="3" Fill="#FF474748" />
+
+        <Rectangle Grid.Column="1" Grid.RowSpan="2" Fill="#FF2B313C" />
+        <Rectangle Grid.Row="2" Grid.ColumnSpan="3" >
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF686868" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
 
         <Rectangle Grid.Row="0" Grid.Column="0" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF2F4E2C"/>
+                    <GradientStop Color="#FF152214"/>
                     <GradientStop Color="#FF2EBE6F" Offset="1"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
@@ -106,7 +113,7 @@
                     </Style>
                 </Button.Resources>
             </Button>
-        </StackPanel> 
+        </StackPanel>
 
         <TextBlock Grid.Row="0" Grid.Column="2" Text="Decryption" TextAlignment="Center" VerticalAlignment="Center" Style="{StaticResource TitleOperationsStyle}"></TextBlock>
         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -127,8 +134,8 @@
             <ItemsControl Grid.Row="1" Grid.Column="0" ItemsSource="{Binding EncryptionWidgets}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate >
-                        <Border Margin="0, 20, 0, 0" BorderBrush="DarkCyan" BorderThickness="3">
-                        <StackPanel Orientation="Vertical" Margin="0, 5, 0, 5">
+                        <Border Margin="0, 20, 0, 0" BorderBrush="White" BorderThickness="3">
+                            <StackPanel Orientation="Vertical" Margin="0, 5, 0, 5">
                                 <Button HorizontalAlignment="Right" Height="20" Margin="0, 0, 5, -5" Click="OnDeleteWidgetClicked"  Tag="{Binding Id}" Command="{Binding OnDeleteWidget}" Width="20" Content="X" Background="Pink"/>
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                     <TextBlock Style="{StaticResource TextInfoField}" HorizontalAlignment="Center" Text="From: "/>
@@ -151,9 +158,9 @@
                                     <TextBlock Style="{StaticResource TextCryptParamsStyle}" HorizontalAlignment="Center" Foreground="{Binding CryptStatus, Converter={StaticResource statusColorConverter}}" Text="{Binding CryptStatus}"/>
                                 </StackPanel>
                                 <TextBlock Style="{StaticResource TextPathStyle}" HorizontalAlignment="Center" Text="{Binding ErrorMessage}"/>
-                                <ProgressBar Foreground="{Binding ProgressPercents, Converter={StaticResource progressColorConverter}}" Minimum="0" Maximum="{Binding FileSize, Mode=TwoWay}" Height="20" Value="{Binding CypheredBytes, Mode=TwoWay}" Margin="0, 10, 20, 0"/>
-                            <TextBlock Margin="0, -20, 0, 0" Text="{Binding ProgressPercents, Mode=TwoWay, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </StackPanel>
+                                <ProgressBar Foreground="{Binding ProgressPercents, Converter={StaticResource progressColorConverter}}" Minimum="0" Maximum="{Binding FileSize, Mode=TwoWay}" Height="20" Value="{Binding CypheredBytes, Mode=TwoWay}" Margin="20, 10, 20, 0"/>
+                                <TextBlock Margin="0, -20, 0, 0" Text="{Binding ProgressPercents, Mode=TwoWay, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </StackPanel>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -166,7 +173,7 @@
                     <DataTemplate>
                         <Border Margin="0, 20, 0, 0" BorderBrush="DarkCyan" BorderThickness="3">
                             <StackPanel Orientation="Vertical" Margin="0, 5, 0, 5">
-                            <Button HorizontalAlignment="Right" Height="20" Margin="0, 0, 5, -5" Command="{Binding OnDeleteWidget}" Click="OnDeleteWidgetClicked" Tag="{Binding Id}" Width="20" Content="X" Background="Pink"/>
+                                <Button HorizontalAlignment="Right" Height="20" Margin="0, 0, 5, -5" Command="{Binding OnDeleteWidget}" Click="OnDeleteWidgetClicked" Tag="{Binding Id}" Width="20" Content="X" Background="Pink"/>
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                     <TextBlock Style="{StaticResource TextInfoField}" HorizontalAlignment="Center" Text="From: "/>
                                     <TextBlock Style="{StaticResource TextPathStyle}" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding FileToDecrypt}"/>
@@ -180,7 +187,7 @@
                                     <TextBlock Style="{StaticResource TextCryptParamsStyle}" HorizontalAlignment="Center" Foreground="{Binding CryptStatus, Converter={StaticResource statusColorConverter}}" Text="{Binding CryptStatus}"/>
                                 </StackPanel>
                                 <TextBlock Style="{StaticResource TextPathStyle}" HorizontalAlignment="Center" Text="{Binding ErrorMessage}"/>
-                                <ProgressBar Foreground="{Binding ProgressPercents, Converter={StaticResource progressColorConverter}}" Minimum="0" Maximum="{Binding FileSize, Mode=TwoWay}" Height="20" Value="{Binding CypheredBytes, Mode=TwoWay}" Margin="0, 10, 20, 0"/>
+                                <ProgressBar Foreground="{Binding ProgressPercents, Converter={StaticResource progressColorConverter}}" Minimum="0" Maximum="{Binding FileSize, Mode=TwoWay}" Height="20" Value="{Binding CypheredBytes, Mode=TwoWay}" Margin="20, 10, 20, 0"/>
                                 <TextBlock  Margin="0, -20, 0, 0" Text="{Binding ProgressPercents,Mode=TwoWay, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </StackPanel>
                         </Border>
@@ -188,7 +195,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-            
+
 
     </Grid>
 </Window>

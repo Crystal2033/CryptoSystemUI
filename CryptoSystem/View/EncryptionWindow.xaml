@@ -52,8 +52,8 @@
                     <Setter Property="Background">
                         <Setter.Value>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#FF0E7642"/>
-                                <GradientStop Color="#FF39AC46" Offset="1"/>
+                                <GradientStop Color="#FF7DCEA5"/>
+                                <GradientStop Color="#FF045C0F" Offset="1"/>
                             </LinearGradientBrush>
                         </Setter.Value>
                     </Setter>
@@ -113,7 +113,7 @@
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF32A03D" Offset="1"/>
+                <GradientStop Color="#FF1D5923" Offset="1"/>
                 <GradientStop Color="#FF0B120C" Offset="0"/>
             </LinearGradientBrush>
         </Grid.Background>
@@ -176,5 +176,6 @@
 
         </StackPanel>
         <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource EncryptBtn}" Width="300" Content="Encrypt" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Command="{Binding OnMakeEncryption}" Click="OnMakeEncryptionClicked"/>
+
     </Grid>
 </Window>
