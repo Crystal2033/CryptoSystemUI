@@ -45,7 +45,7 @@ namespace CryptoSystem.ViewModel
 
         private void LoadKeyFile(object param)
         {
-            decryptionInfo.KeyFile = SaverLoaderFiles.GetFileNameToLoad("Keys|*.private_key.txt");
+            decryptionInfo.KeyFile = SaverLoaderFiles.GetFileNameToLoad("Keys|*.private_key*.txt");
         }
 
         private bool CanLoadKeyFile(object param)

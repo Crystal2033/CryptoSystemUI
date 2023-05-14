@@ -90,6 +90,15 @@ namespace Client
 
             string jsonSecretKey = JsonConvert.SerializeObject(secretKeyData, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             string secretKeyFilePath = fullDirName + @$"\{fileNameWithoutExtension}private_key.txt";
+            if (File.Exists(secretKeyFilePath))
+            {
+                int counter = 1;
+                do
+                {
+                    secretKeyFilePath = fullDirName + @$"\{fileNameWithoutExtension}private_key_{counter}.txt";
+                    counter++;
+                } while (File.Exists(secretKeyFilePath));
+            }
             cryptMessage.KeyFile = secretKeyFilePath;
 
             InsertJSONInFile(secretKeyFilePath, jsonSecretKey);
