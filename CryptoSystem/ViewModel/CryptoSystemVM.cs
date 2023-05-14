@@ -168,7 +168,9 @@ namespace CryptoSystem.ViewModel
             {
                 DecryptionDTO decryptionDTO = decryptionWindow.getContext().DecryptionInfo;
                 Task.Run(() => { MakeDecryption(decryptionDTO); });
+
                 decryptionWidgets.Add(decryptionDTO);
+                
             }
         }
 
@@ -184,8 +186,18 @@ namespace CryptoSystem.ViewModel
             {
                 File.WriteAllText(decryptionDTO.ResultDecryptFile, string.Empty);
             }
-
-            await Client.SendMessageAsync(cryptMessage, 0);
+            try
+            {
+                await Client.SendMessageAsync(cryptMessage, 0);
+            }
+            catch(Exception exc)
+            {
+                decryptionDTO.ErrorMessage = exc.Message;
+                decryptionDTO.CryptStatus = Status.FAILED;
+                MessageBox.Show($"There is a problem with sending message. Error message: {exc.Message}", "SendMessage error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
             decryptionDTO.FileSize = GetFileSize(decryptionDTO.FileToDecrypt);
             await Task.Run(() =>
             {
