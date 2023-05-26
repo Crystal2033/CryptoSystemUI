@@ -1,5 +1,6 @@
 # CryptoSystemUI
-User interafce for realization of XTR and TwoFish algorythms.
+User interface for realization of XTR and TwoFish algorythms.
+
 ![StartWindow](https://github.com/Crystal2033/CryptoSystemUI/assets/90513443/1d3edf4f-4a16-4897-8dd8-3b92b3d463cc)
 
 ![EncrParameters2](https://github.com/Crystal2033/CryptoSystemUI/assets/90513443/7313acde-f230-44a8-8a6d-8a7d9e058540)
